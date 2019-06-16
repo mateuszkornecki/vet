@@ -1,9 +1,6 @@
 
-var isArray =
-	Array.isArray ||
-	function isArray(val) {
-		return Object.prototype.toString.call(val) === '[object Array]';
-	};
+var isArray = require('./isArray');
+var assert = require('../utils/assert');
 
 /**
 * Constructor to build an array length validator
@@ -24,9 +21,13 @@ var isArray =
 * ```
 */
 function isLength(len) {
-	return function (val) {
+	var instance = function _isLengthInstance(val) {
 		return isArray(val) && val.length === len;
 	};
+
+	instance.assert = assert(instance, 'vet/arrays/isLength assert failed');
+
+	return instance;
 }
 
 module.exports = isLength;

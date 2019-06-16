@@ -1,3 +1,6 @@
+
+var assert = require('./utils/assert');
+
 /**
 * Builds an curried equal function
 * @param eq - value to check equality against
@@ -16,7 +19,11 @@
 * ```
 */
 function equals(eq) {
-	return function (val) { return val === eq; };
+	var instance = function _equalsInstance(val) { return val === eq; };
+
+	instance.assert = assert(instance, 'vet/equals assert failed');
+
+	return instance;
 }
 
 module.exports = equals;

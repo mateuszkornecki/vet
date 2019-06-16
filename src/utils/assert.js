@@ -21,7 +21,7 @@ function assert (validator, message) {
 	message = messageBuilder(message || 'vet/utils/assert error!');
 
 	if (isFunction(validator)) {
-		return function() {
+		return function _assertInstance () {
 			var args = arguments;
 			if (validator.apply(this, args)) {
 				return true;

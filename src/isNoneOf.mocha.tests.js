@@ -1,7 +1,8 @@
 /* eslint-env mocha */
 
-const Vet = require('./');
-const { isNoneOf } = Vet;
+const inspect = require('object-inspect');
+
+const isNoneOf = require('./isNoneOf');
 
 const TESTS = [
 	{ input: false, expected: true },
@@ -24,22 +25,64 @@ describe('vet/isNoneOf', () => {
 
 	TESTS.forEach((test) => {
 		it(
-			`(${test.input})-->(${test.expected})`,
+			`(${inspect(test.input)})-->(${inspect(test.expected)})`,
 			(done) => done(
 				validator(test.input) === test.expected ? null : new Error()
 			)
 		);
 	});
 
+	TESTS.forEach((test) => {
+		it(
+			`assert (${inspect(test.input)})-->(${inspect(test.expected)})`,
+			(done) => {
+				let output;
+
+				try {
+					validator.assert(test.input);
+					output = true;
+				} catch (err) {
+					output = false;
+				}
+
+				done(
+					output === test.expected ? null : new Error()
+				);
+			}
+		);
+	});
+
+
 	const validator2 = isNoneOf((val) => val === true, (val) => val === '');
 
 	TESTS.forEach((test) => {
 		it(
-			`(${test.input})-->(${test.expected})`,
+			`(${inspect(test.input)})-->(${inspect(test.expected)})`,
 			(done) => done(
 				validator2(test.input) === test.expected ? null : new Error()
 			)
 		);
 	});
+
+	TESTS.forEach((test) => {
+		it(
+			`assert (${inspect(test.input)})-->(${inspect(test.expected)})`,
+			(done) => {
+				let output;
+
+				try {
+					validator2.assert(test.input);
+					output = true;
+				} catch (err) {
+					output = false;
+				}
+
+				done(
+					output === test.expected ? null : new Error()
+				);
+			}
+		);
+	});
+
 
 });

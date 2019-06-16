@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * A function to check for null or undefined
 * @param val - a value to check
@@ -17,5 +19,7 @@
 function isNullOrUndefined(val) {
 	return val == null;
 }
+
+isNullOrUndefined.assert = assert(isNullOrUndefined, 'vet/isNullOrUndefined assert failed');
 
 module.exports = isNullOrUndefined;

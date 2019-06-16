@@ -1,4 +1,6 @@
 
+var assert = require('../utils/assert');
+
 /**
 * Checks to see if a value is a boolean
 * @param val - the value to check
@@ -10,6 +12,6 @@ function isBoolean (val) {
 	return (typeof (val) === 'boolean') || (val instanceof Boolean);
 }
 
-
+isBoolean.assert = assert(isBoolean, 'vet/booleans/isBoolean assert failed');
 
 module.exports = isBoolean;

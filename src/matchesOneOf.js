@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * ```javascript
 *
@@ -25,13 +27,17 @@
 function matchesOneOf() {
 	var validators = arguments;
 
-	return function (val) {
+	var instance = function _matchesOneOfInstance(val) {
 		for (var i = 0; i < validators.length; i++) {
 			if (validators[i](val)) { return true; }
 		}
 
 		return false;
 	};
+
+	instance.assert = assert(instance, 'vet/matchesOneOf assert failed');
+
+	return instance;
 }
 
 module.exports = matchesOneOf;

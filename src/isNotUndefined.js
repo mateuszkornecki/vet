@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * A function to check for undefined
 * @param val - a value to check
@@ -17,5 +19,7 @@
 function isNotUndefined(val) {
 	return val !== undefined;
 }
+
+isNotUndefined.assert = assert(isNotUndefined, 'vet/isNotUndefined assert failed');
 
 module.exports = isNotUndefined;

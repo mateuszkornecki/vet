@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * Alias for `vet/isNotNullOrUndefined`
 * @param val - value to check
@@ -18,5 +20,7 @@
 function exists (val) {
 	return val != null;
 }
+
+exists.assert = assert(exists, 'vet/exists assert failed');
 
 module.exports = exists;

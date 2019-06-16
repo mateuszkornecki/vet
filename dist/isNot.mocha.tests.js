@@ -1,5 +1,7 @@
 /* eslint-env mocha */
 
+const inspect = require('object-inspect');
+
 const isNot = require('./isNot');
 const isNumber = require('./numbers/isNumber');
 
@@ -29,12 +31,37 @@ const TESTS = [
 
 
 describe('vet/isNot', () => {
+
+	const validator = isNot(isNumber);
+
 	TESTS.forEach((test) => {
 		it(
-			`(${test.input})-->(${test.expected})`,
+			`(${inspect(test.input)})-->(${inspect(test.expected)})`,
 			(done) => done(
-				isNot(isNumber)(test.input) === test.expected ? null : new Error()
+				validator(test.input) === test.expected ? null : new Error()
 			)
 		);
 	});
+
+	TESTS.forEach((test) => {
+		it(
+			`assert (${inspect(test.input)})-->(${inspect(test.expected)})`,
+			(done) => {
+				let output;
+
+				try {
+					validator.assert(test.input);
+					output = true;
+				} catch (err) {
+					output = false;
+				}
+
+				done(
+					output === test.expected ? null : new Error()
+				);
+			}
+		);
+	});
+
+
 });

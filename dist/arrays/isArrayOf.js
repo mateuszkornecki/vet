@@ -1,10 +1,6 @@
 
-var isArray =
-	Array.isArray ||
-	function isArray(val) {
-		return Object.prototype.toString.call(val) === '[object Array]';
-	};
-
+var isArray = require('./isArray');
+var assert = require('../utils/assert');
 
 /**
 * Builds an array validator that checks the children of the array
@@ -27,7 +23,11 @@ var isArray =
 * ```
 */
 function isArrayOf(validator) {
-	return function(arr) {
+	var _validatorAssert =
+		validator.assert ||
+		assert(validator);
+
+	var instance = function _isArrayOfInstance(arr) {
 		if (!isArray(arr)) { return false; }
 
 		for (var i = 0; i < arr.length; i++) {
@@ -36,6 +36,16 @@ function isArrayOf(validator) {
 
 		return true;
 	};
+
+	instance.assert = function (arr) {
+		isArray.assert(arr);
+
+		for (var i = 0; i < arr.length; i++) {
+			_validatorAssert(arr[i]);
+		}
+	};
+
+	return instance;
 }
 
 module.exports = isArrayOf;

@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * A function builder to optionally check a value
 * @param validator - a validator function
@@ -19,9 +21,13 @@
 * ```
 */
 function optional(validator) {
-	return function (val) {
+	var instance = function _optionalInstance(val) {
 		return val == null || validator(val);
-	}
+	};
+
+	instance.assert = assert(instance, 'vet/optional assert failed');
+
+	return instance;
 }
 
 module.exports = optional;

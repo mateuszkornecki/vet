@@ -1,7 +1,8 @@
 /* eslint-env mocha */
 
-const Vet = require('./');
-const { optional } = Vet;
+const inspect = require('object-inspect');
+
+const optional = require('./optional');
 
 const TESTS = [
 	{ input: 'a string', expected: true },
@@ -24,10 +25,31 @@ describe('vet/optional', () => {
 
 	TESTS.forEach((test) => {
 		it(
-			`(${test.input})-->(${test.expected})`,
+			`(${inspect(test.input)})-->(${inspect(test.expected)})`,
 			(done) => done(
 				validator(test.input) === test.expected ? null : new Error()
 			)
 		);
 	});
+
+	TESTS.forEach((test) => {
+		it(
+			`assert (${inspect(test.input)})-->(${inspect(test.expected)})`,
+			(done) => {
+				let output;
+
+				try {
+					validator.assert(test.input);
+					output = true;
+				} catch (err) {
+					output = false;
+				}
+
+				done(
+					output === test.expected ? null : new Error()
+				);
+			}
+		);
+	});
+
 });

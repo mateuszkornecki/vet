@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * Constructs a function that checks equality against any number of arguments
 * @param {...*} eq - values to check equality against
@@ -18,7 +20,7 @@
 function isNoneOf() {
 	var validators = arguments;
 
-	return function (val) {
+	var instance = function _isNoneOfInstance(val) {
 		for (var i = 0; i < validators.length; i++) {
 			var validator = validators[i];
 			var check = typeof validator === 'function' ?
@@ -29,7 +31,11 @@ function isNoneOf() {
 		}
 
 		return true;
-	}
+	};
+
+	instance.assert = assert(instance, 'vet/isNoneOf assert failed');
+
+	return instance;
 }
 
 module.exports = isNoneOf;

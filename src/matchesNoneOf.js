@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * ```javascript
 *
@@ -25,13 +27,17 @@
 function matchesNoneOf() {
 	var validators = arguments;
 
-	return function(val) {
+	var wrapper = function _matchesNoneOfInstance(val) {
 		for (var i = 0; i < validators.length; i++) {
 			if (validators[i](val)) { return false; }
 		}
 
 		return true;
 	};
+
+	wrapper.assert = assert(wrapper, 'vet/matchesNoneOf assert failed');
+
+	return wrapper;
 }
 
 module.exports = matchesNoneOf;

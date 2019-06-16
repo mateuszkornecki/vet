@@ -1,4 +1,6 @@
 
+var assert = require('../utils/assert');
+
 /**
 * Checks to see if a value is loosely true (truthy)
 * @param val - the value to check
@@ -18,5 +20,7 @@
 function isTruthy(val) {
 	return !!val;
 }
+
+isTruthy.assert = assert(isTruthy, 'vet/booleans/isTruthy assert failed');
 
 module.exports = isTruthy;

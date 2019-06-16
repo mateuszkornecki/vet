@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * A function to check for nulls
 * @param val - a value to check against null
@@ -19,5 +21,7 @@
 function isNotNull(val) {
 	return val !== null;
 }
+
+isNotNull.assert = assert(isNotNull, 'vet/isNotNull assert failed');
 
 module.exports = isNotNull;

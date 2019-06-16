@@ -27,6 +27,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.1",
     "jsdoc-to-markdown": "^4.0.1",
-    "mocha": "^6.0.2"
+    "mocha": "^6.0.2",
+    "object-inspect": "^1.6.0"
   }
 }

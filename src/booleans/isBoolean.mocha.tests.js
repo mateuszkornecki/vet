@@ -1,7 +1,8 @@
 /* eslint-env mocha */
 
-const Vet = require('../');
-const { isBoolean } = Vet.Boolean;
+const inspect = require('object-inspect');
+
+const isBoolean = require('./isBoolean');
 
 const TESTS = [
 	{ input: false, expected: true },
@@ -19,12 +20,36 @@ const TESTS = [
 
 
 describe('vet/booleans/isBoolean', () => {
+
+	const validator = isBoolean;
+
 	TESTS.forEach((test) => {
 		it(
-			`(${test.input})-->(${test.expected})`,
+			`(${inspect(test.input)})-->(${inspect(test.expected)})`,
 			(done) => done(
-				isBoolean(test.input) === test.expected ? null : new Error()
+				validator(test.input) === test.expected ? null : new Error()
 			)
 		);
 	});
+
+	TESTS.forEach((test) => {
+		it(
+			`assert (${inspect(test.input)})-->(${inspect(test.expected)})`,
+			(done) => {
+				let output;
+
+				try {
+					validator.assert(test.input);
+					output = true;
+				} catch (err) {
+					output = false;
+				}
+
+				done(
+					output === test.expected ? null : new Error()
+				);
+			}
+		);
+	});
+
 });

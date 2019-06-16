@@ -1,4 +1,6 @@
 
+var assert = require('../utils/assert');
+
 /**
 * Checks to see if a value is an array
 * @name isArray
@@ -15,8 +17,12 @@
 * isArray([]); // returns true
 * ```
 */
-module.exports =
+var isArray =
 	Array.isArray ||
 	function isArray(val) {
 		return Object.prototype.toString.call(val) === '[object Array]';
 	};
+
+isArray.assert = assert(isArray, 'vet/isArray assert failed');
+
+module.exports = isArray;

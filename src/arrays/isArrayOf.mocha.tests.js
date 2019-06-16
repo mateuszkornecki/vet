@@ -1,5 +1,7 @@
 /* eslint-env mocha */
 
+const inspect = require('object-inspect');
+
 const Vet = require('../');
 const { isArrayOf } = Vet.Array;
 
@@ -28,17 +30,38 @@ const TESTS = [
 	{ input: /a/, expected: false },
 ];
 
-
 describe('vet/arrays/isArrayOf', () => {
 
 	const validator = isArrayOf((val) => val != null);
 
 	TESTS.forEach((test) => {
 		it(
-			`(${test.input})-->(${test.expected})`,
+			`(${inspect(test.input)})-->(${inspect(test.expected)})`,
 			(done) => done(
 				validator(test.input) === test.expected ? null : new Error()
 			)
 		);
 	});
+
+	TESTS.forEach((test) => {
+		it(
+			`assert (${inspect(test.input)})-->(${inspect(test.expected)})`,
+			(done) => {
+				let output;
+
+				try {
+					validator.assert(test.input);
+					output = true;
+				} catch (err) {
+					output = false;
+				}
+
+				done(
+					output === test.expected ? null : new Error()
+				);
+			}
+		);
+	});
+
+
 });

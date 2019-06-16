@@ -1,4 +1,6 @@
 
+var assert = require('../utils/assert');
+
 /**
 * Checks to see if a value is strictly false
 * @param val - the value to check
@@ -17,5 +19,7 @@
 function isFalse(val) {
 	return val === false;
 }
+
+isFalse.assert = assert(isFalse, 'vet/booleans/isFalse assert failed');
 
 module.exports = isFalse;

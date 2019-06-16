@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 /**
 * ```javascript
 *
@@ -24,13 +26,17 @@
 function matchesAllOf() {
 	var validators = arguments;
 
-	return function(val) {
+	var instance = function _matchesAllOfInstance(val) {
 		for (var i = 0; i < validators.length; i++) {
 			if (!validators[i](val)) { return false; }
 		}
 
 		return true;
 	};
+
+	instance.assert = assert(instance, 'vet/matchesAllOf assert failed');
+
+	return instance;
 }
 
 module.exports = matchesAllOf;

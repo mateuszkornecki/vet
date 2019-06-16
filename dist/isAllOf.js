@@ -1,4 +1,6 @@
 
+var assert = require('./utils/assert');
+
 function isFunction(val) { return typeof val === 'function'; }
 
 /**
@@ -22,7 +24,7 @@ function isFunction(val) { return typeof val === 'function'; }
 function isAllOf () {
 	var validators = arguments;
 
-	return function (val) {
+	var instance = function _isAllOfInstance(val) {
 		for (var i = 0; i < validators.length; i++) {
 			var validator = validators[i];
 			var check = typeof validator === 'function' ?
@@ -33,7 +35,11 @@ function isAllOf () {
 		}
 
 		return true;
-	}
+	};
+
+	instance.assert = assert(instance, 'vet/isAllOf assert failed');
+
+	return instance;
 }
 
 module.exports = isAllOf;
